@@ -15,13 +15,12 @@ export default class Page {
 
   async checkOpen () {
     try {
-      const browserUrl = await browser.getUrl()
       await browser.waitUntil(
-        async () => (browserUrl.includes(this.url)),
+        async () => ((await browser.getUrl()).includes(this.url)),
         {
           timeout: browser.options.waitforTimeout,
           interval: browser.options.waitforInterval,
-          timeoutMsg: `The browser url:${browserUrl} did not match the expected url:${this.url}`
+          timeoutMsg: `The url did not match the expected url:${this.url}`
         }
       )
     } catch (e) {
