@@ -23,7 +23,7 @@ export const config = {
   // of the config file unless it's absolute.
   //
   specs: [
-    '../features/A1_admin_paper_return_entry.feature'
+    '../features/A3_admin_upload_age_weight_key.feature'
   ],
   // Patterns to exclude.
   exclude: [
