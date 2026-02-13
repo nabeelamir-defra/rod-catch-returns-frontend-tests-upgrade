@@ -23,7 +23,7 @@ export const config = {
   // of the config file unless it's absolute.
   //
   specs: [
-    '../features/4_update_delete_apr.feature'
+    '../features/A1_admin_paper_return_entry.feature'
   ],
   // Patterns to exclude.
   exclude: [
@@ -90,6 +90,9 @@ export const config = {
   //
   // Default timeout for all waitFor* commands.
   waitforTimeout: 10000,
+
+  // Default interval for all waitFor* commands (number of ms between checks to see if the runner should stop waiting)
+  waitforInterval: 500,
   //
   // Default timeout in milliseconds for request
   // if browser driver or grid doesn't send response

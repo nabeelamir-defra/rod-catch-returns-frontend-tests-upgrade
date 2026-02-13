@@ -19,7 +19,8 @@ export default class Page {
       await browser.waitUntil(
         async () => (browserUrl.includes(this.url)),
         {
-          timeout: 5000,
+          timeout: browser.options.waitforTimeout,
+          interval: browser.options.waitforInterval,
           timeoutMsg: `The browser url:${browserUrl} did not match the expected url:${this.url}`
         }
       )

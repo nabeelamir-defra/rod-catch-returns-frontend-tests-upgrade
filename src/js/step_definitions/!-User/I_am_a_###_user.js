@@ -1,4 +1,4 @@
-import AdminLoginPage from '../../pages/AdminLogin-page'
+import AdminLoginPage from '../../pages/Admin-login.page'
 import LicencePage from '../../pages/Licence-page'
 import { defineStep } from '@wdio/cucumber-framework'
 import logger from '../../utils/logger'

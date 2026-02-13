@@ -9,7 +9,15 @@ class AdminLoginPage extends Page {
   get password () { return $('input[type="password"]') }
   get submitBtn () { return $('input[type="submit"]') }
 
-  async submit () {
+  async setUsername (username) {
+    await this.username.setValue(username)
+  }
+
+  async setPassword (password) {
+    await this.password.setValue(password)
+  }
+
+  async next () {
     await this.submitBtn.click()
   }
 }
