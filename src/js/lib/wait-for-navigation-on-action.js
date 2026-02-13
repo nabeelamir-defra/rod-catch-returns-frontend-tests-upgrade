@@ -1,36 +1,45 @@
 import logger from '../utils/logger'
 
-const waitForNav = async (action) => {
-  const oldPageId = $('#pgid') ? await $('#pgid').getHTML() : 'NO_OLD_PAGE_ID_FOUND'
-  const oldPageUrl = await browser.getUrl()
+async function getPageId () {
+  const el = await $('#pgid')
+  return (await el.isExisting()) ? await el.getHTML() : null
+}
+
+async function waitForNav (action) {
+  const oldPageId = await getPageId()
+  const oldUrl = await browser.getUrl()
   let currentPageId = null
 
-  logger.debug(`Waiting for navigation, old page id=${oldPageId}`)
+  logger.debug(`Waiting for navigation, old pageId=${oldPageId ?? 'NONE'}`)
 
   try {
     await action()
+    await browser.waitUntil(async () => {
+      currentPageId = await getPageId()
+      const hasChanged = currentPageId !== null && currentPageId !== oldPageId
 
-    await browser.waitUntil(
-      async () => {
-        try {
-          currentPageId = await $('#pgid').getHTML()
-        } catch (e) {
-          currentPageId = null
-        }
+      if (!hasChanged) {
+        logger.debug(`Still waiting for navigation... old=${oldPageId}, current=${currentPageId}`)
+      }
 
-        const hasChanged = (currentPageId !== null && currentPageId !== oldPageId)
-        if (!hasChanged) {
-          logger.debug(`Waiting for page to load (loaded: ${hasChanged}).  [Old page id: ${oldPageId}, current page id: ${currentPageId}]`)
-        }
-        return hasChanged
-      }, browser.options.waitforTimeout, 'expected page id to change as result of action', browser.options.waitforInterval
+      return hasChanged
+    },
+    {
+      timeout: browser.options.waitforTimeout,
+      interval: browser.options.waitforInterval,
+      timeoutMsg: `Expected pageId to change from "${oldPageId}"`
+    })
+  } catch (error) {
+    logger.error(
+      `Navigation failed: pageId did not change within ${browser.options.waitforTimeout}ms. Old pageId=${oldPageId}, current pageId=${currentPageId}`,
+      error
     )
-  } catch (e) {
-    logger.error(`Expected page id (${oldPageId}) to change within ${browser.options.waitforTimeout}ms of navigation.  Current page id is ${currentPageId}`, e)
-    throw e
+    throw error
   }
 
-  logger.debug(`Page load complete.  [Old page: id=${oldPageId}, url=${oldPageUrl}.  Current page: id=${currentPageId}, url=${browser.getUrl()}]`)
+  const newUrl = await browser.getUrl()
+
+  logger.debug(`Navigation complete. Old page: id=${oldPageId}, url=${oldUrl} New page: id=${currentPageId}, url=${newUrl}`)
 }
 
 export default waitForNav

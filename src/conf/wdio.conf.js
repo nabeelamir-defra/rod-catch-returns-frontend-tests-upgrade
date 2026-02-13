@@ -23,7 +23,7 @@ export const config = {
   // of the config file unless it's absolute.
   //
   specs: [
-    '../features/1_first_visit_1_apr.feature'
+    '../features/4_update_delete_apr.feature'
   ],
   // Patterns to exclude.
   exclude: [
@@ -62,7 +62,7 @@ export const config = {
   // Define all options that are relevant for the WebdriverIO instance here
   //
   // Level of logging verbosity: trace | debug | info | warn | error | silent
-  logLevel: 'info',
+  logLevel: 'error',
   //
   // Set specific log levels per logger
   // loggers:
@@ -141,7 +141,7 @@ export const config = {
     // <boolean> invoke formatters without executing steps
     dryRun: false,
     // <boolean> abort the run on first failure
-    failFast: false,
+    failFast: true,
     // <string[]> Only execute the scenarios with name matching the expression (repeatable).
     name: [],
     // <boolean> hide step definition snippets for pending steps
@@ -151,11 +151,12 @@ export const config = {
     // <boolean> fail if there are any undefined or pending steps
     strict: false,
     // <string> (expression) only execute the features or scenarios with tags matching the expression
-    tagExpression: '',
+    tagExpression: 'not @Pending',
     // <number> timeout for step definitions
     timeout: 60000,
     // <boolean> Enable this config to treat undefined definitions as warnings.
-    ignoreUndefinedDefinitions: false
+    ignoreUndefinedDefinitions: false,
+    failAmbiguousDefinitions: true // Treat ambiguous definitions as errors.
   },
 
   //

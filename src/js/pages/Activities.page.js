@@ -2,7 +2,7 @@ import Page from './page.js'
 
 class AddActivitiesPage extends Page {
   get url () {
-    return '/activities/add'
+    return '/activities'
   }
 
   async selectRiver (riverName) {
